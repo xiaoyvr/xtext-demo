@@ -11,8 +11,14 @@ import com.google.common.collect.Maps;
 import com.tw.demo.hKDsl.DeclaredParameter;
 import com.tw.demo.hKDsl.Definition;
 import com.tw.demo.hKDsl.Div;
+import com.tw.demo.hKDsl.EQ;
 import com.tw.demo.hKDsl.Expression;
 import com.tw.demo.hKDsl.FunctionCall;
+import com.tw.demo.hKDsl.GE;
+import com.tw.demo.hKDsl.GT;
+import com.tw.demo.hKDsl.IfStatement;
+import com.tw.demo.hKDsl.LE;
+import com.tw.demo.hKDsl.LT;
 import com.tw.demo.hKDsl.Minus;
 import com.tw.demo.hKDsl.Multi;
 import com.tw.demo.hKDsl.NumberLiteral;
@@ -71,5 +77,35 @@ public class Calculator {
 	private BigDecimal evaluateAsBigDecimal(Expression obj, ImmutableMap<String,Object> values) {
 		BigDecimal invoke = (BigDecimal)dispatcher.invoke(obj, values);
 		return invoke;
-	}	
+	}
+	
+	protected boolean internalEvaluate(GT greaterThan, ImmutableMap<String,Object> values) {
+		return evaluateAsBigDecimal(greaterThan.getLeft(),values).compareTo(evaluateAsBigDecimal(greaterThan.getRight(),values)) > 0;		
+	}
+	
+	protected boolean internalEvaluate(LT lessThan, ImmutableMap<String,Object> values) {
+		return evaluateAsBigDecimal(lessThan.getLeft(),values).compareTo(evaluateAsBigDecimal(lessThan.getRight(),values)) < 0;		
+	}
+	
+	protected boolean internalEvaluate(EQ equal, ImmutableMap<String,Object> values) {
+		return evaluateAsBigDecimal(equal.getLeft(),values).compareTo(evaluateAsBigDecimal(equal.getRight(),values)) == 0;		
+	}
+	protected boolean internalEvaluate(GE greaterOrEqual, ImmutableMap<String,Object> values) {
+		return evaluateAsBigDecimal(greaterOrEqual.getLeft(),values).compareTo(evaluateAsBigDecimal(greaterOrEqual.getRight(),values)) >= 0;
+	}
+	protected boolean internalEvaluate(LE lessOrEqual, ImmutableMap<String,Object> values) {
+		return evaluateAsBigDecimal(lessOrEqual.getLeft(),values).compareTo(evaluateAsBigDecimal(lessOrEqual.getRight(),values)) >= 0;
+	}
+	protected BigDecimal internalEvaluate(IfStatement ifStatement, ImmutableMap<String,Object> values) {
+		boolean cond = evaluateAsBoolean(ifStatement.getCond(), values);
+		return cond? 
+				evaluateAsBigDecimal(ifStatement.getTruePart(),values) :
+				evaluateAsBigDecimal(ifStatement.getFalsePart(),values);
+	}
+	
+	private boolean evaluateAsBoolean(Expression obj, ImmutableMap<String,Object> values) {
+		boolean invoke = (Boolean)dispatcher.invoke(obj, values);
+		return invoke;
+	}
+
 }

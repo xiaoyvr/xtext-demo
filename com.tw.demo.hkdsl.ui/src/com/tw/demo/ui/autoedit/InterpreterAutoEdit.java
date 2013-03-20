@@ -1,6 +1,5 @@
 package com.tw.demo.ui.autoedit;
 
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.DocumentCommand;
 import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.IDocument;

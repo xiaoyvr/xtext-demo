@@ -14,11 +14,20 @@ Definition:
 DeclaredParameter:
 	name=ID;
 
+CompareExpression: 
+	'(' ({GT}'>' | {LT}'<' | {GE}'>=' | {LE}'<=' | {EQ}'=') left=Expression right=Expression ')'
+;
+
+IfStatement:
+	'(' 'if' cond=Expression truePart=Expression falsePart=Expression ')';
+
 Expression:
 	{NumberLiteral} value=NUMBER |	
 	'(' ({Plus}'+' | {Minus}'-' | {Multi}'*' | {Div}'/') left=Expression right=Expression ')' |
 	{Param}param=[DeclaredParameter] | 
-	{FunctionCall} '(' func=[Definition]  (args+=Expression)* ')';
+	{FunctionCall} '(' func=[Definition]  (args+=Expression)* ')'|
+	CompareExpression |
+	IfStatement;
 
 terminal NUMBER returns ecore::EBigDecimal:
 	('0'..'9')* ('.' ('0'..'9')+)?;
