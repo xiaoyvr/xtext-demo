@@ -13,6 +13,7 @@ import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 import com.tw.demo.hKDsl.Expression;
 import com.tw.demo.hKDsl.Model;
 import com.tw.demo.hKDsl.Statement;
+import com.tw.demo.interpreter.Calculator;
 
 public class InterpreterAutoEdit implements IAutoEditStrategy {
 
@@ -35,7 +36,7 @@ public class InterpreterAutoEdit implements IAutoEditStrategy {
 						Expression expr = findExpression(command, state);
 						if (expr == null)
 							return null;
-						return 0;
+						return new Calculator().evaluate(expr);
 					}
 				});
 	}
