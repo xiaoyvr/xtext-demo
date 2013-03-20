@@ -1,0 +1,9 @@
+grammar com.tw.demo.HKDsl with org.eclipse.xtext.common.Terminals
+
+generate hKDsl "http://www.tw.com/demo/HKDsl"
+
+Model:
+	greetings+=Greeting*;
+	
+Greeting:
+	'Hello' name=ID '!';
