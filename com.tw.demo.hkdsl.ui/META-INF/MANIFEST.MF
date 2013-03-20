@@ -8,6 +8,17 @@ Bundle-ActivationPolicy: lazy
 Require-Bundle: com.tw.demo.hkdsl;visibility:=reexport,
  org.eclipse.xtext.ui,
  org.eclipse.ui.editors;bundle-version="3.5.0",
- org.eclipse.ui.ide;bundle-version="3.5.0"
+ org.eclipse.ui.ide;bundle-version="3.5.0",
+ org.eclipse.xtext.ui.shared,
+ org.eclipse.ui,
+ org.eclipse.xtext.builder,
+ org.antlr.runtime,
+ org.eclipse.xtext.common.types.ui,
+ org.eclipse.xtext.ui.codetemplates.ui,
+ org.eclipse.compare
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: com.tw.demo.ui.contentassist,
+ com.tw.demo.ui.contentassist.antlr,
+ com.tw.demo.ui.internal
+Bundle-Activator: com.tw.demo.ui.internal.HKDslActivator
