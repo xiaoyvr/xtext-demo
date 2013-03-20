@@ -3,7 +3,12 @@
  */
 package com.tw.demo.ui;
 
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.xtext.ui.editor.autoedit.AbstractEditStrategyProvider;
+import org.eclipse.xtext.ui.editor.autoedit.DefaultAutoEditStrategyProvider;
+
+import com.tw.demo.ui.autoedit.InterpreterAutoEdit;
 
 /**
  * Use this class to register components to be used within the IDE.
@@ -11,5 +16,19 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 public class HKDslUiModule extends com.tw.demo.ui.AbstractHKDslUiModule {
 	public HKDslUiModule(AbstractUIPlugin plugin) {
 		super(plugin);
+	}
+	
+	@Override
+	public Class<? extends AbstractEditStrategyProvider> bindAbstractEditStrategyProvider() {
+		return AutoEditStrategy.class;
+	}
+	
+	public static class AutoEditStrategy extends DefaultAutoEditStrategyProvider {
+		@Override
+		protected void configure(IEditStrategyAcceptor acceptor) {
+			super.configure(acceptor);
+			//acceptor.accept(newShortCuts("PI", "PI"));
+			acceptor.accept(new InterpreterAutoEdit(), IDocument.DEFAULT_CONTENT_TYPE);
+		}
 	}
 }
